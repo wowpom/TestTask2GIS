@@ -64,7 +64,38 @@ namespace TestTask2GIS
             dicName.Remove(name);
             _count--;
         }
+        /// <summary>
+        /// Получить элемент по ключу  
+        /// </summary>
+        
+        public T Get(TId id, TName name) 
+        {
+            Dictionary<TName, T> dicName;
+            if (_dicById.TryGetValue(id, out dicName)) return default(T);
+            T value;
+            if (dicName.TryGetValue(name, out value)) return value;
+            return default(T);
+        }
 
+        /// <summary>
+        /// Получить элементы, по name
+        /// </summary>
+        public IList<T> GetByName(TName name)
+        {
+            Dictionary<TId, T> dicId;
+            if (!_dicByName.TryGetValue(name, out dicId)) return new List<T>();
+            return dicId.Values.ToList();
+        }
+
+        /// <summary>
+        /// Получить элементы, по name
+        /// </summary>
+        public IList<T> GetById(TId id)
+        {
+            Dictionary<TName, T> dicName;
+            if (!_dicById.TryGetValue(id, out dicName)) return new List<T>();
+            return dicName.Values.ToList();
+        }
         public int Count
         {
             get
